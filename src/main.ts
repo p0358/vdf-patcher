@@ -143,6 +143,11 @@ export class VDFFileWrapper {
         throw new RangeError("No valid line with such key");
     }
 
+    has(key: string): boolean {
+        key = key.toUpperCase();
+        return key in this._linesMap;
+    }
+
     delete(key: string) {
         key = key.toUpperCase();
         if (key in this._linesMap) {
