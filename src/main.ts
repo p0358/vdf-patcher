@@ -112,6 +112,12 @@ export class VDFFileLine {
 
 type InsertOptions = { after?: number; } | { before?: number; };
 
+export interface VDFFileWrapperCopyFromOptions {
+    addMissing?: boolean; // add keys from "from" which are missing on our file
+    addMissingNoValue?: boolean; // if addMissing is true, missing keys will be copied without corresponding value
+    onlyMissing?: boolean; // do not copy values of any keys that already exist in our file
+}
+
 export class VDFFileWrapper {
     private _raw: string;
     _lines: VDFFileLine[] = [];
@@ -274,7 +280,11 @@ export class VDFFileWrapper {
         return this._lines.join(this._isCRLF ? "\r\n" : "\n");
     }
 
-    copyFrom(from: VDFFileWrapper, addMissing: boolean = false) {
+    copyFrom(from: VDFFileWrapper, options: VDFFileWrapperCopyFromOptions = {}) {
+        const addMissing: boolean = options.addMissing ?? false; // add keys from "from" which are missing on our file
+        const addMissingNoValue: boolean = options.addMissingNoValue ?? false; // if addMissing is true, missing keys will be copied without corresponding value
+        const onlyMissing: boolean = options.onlyMissing ?? false; // do not copy values of any keys that already exist in our file
+
         let vi = 0;
         let prevLine: VDFFileLine | null = null;
         let prevLineValid: VDFFileLine | null = null;
@@ -286,7 +296,7 @@ export class VDFFileWrapper {
             }
             if (vi === 0 && line.key === "Language") { vi++; continue; }
 
-            if (addMissing || line.key.toUpperCase() in this._linesMap)
+            if ((addMissing && !(line.key.toUpperCase() in this._linesMap)) || (!onlyMissing && line.key.toUpperCase() in this._linesMap))
                 if (!this.set(line.key, line.value) && addMissing) {
                     // insert missing at sensible position
 
@@ -315,6 +325,10 @@ export class VDFFileWrapper {
                             this.insertLine(line);
                         }
                     }
+
+                    if (addMissingNoValue) {
+                        this.set(line.key, "");
+                    }
                 }
 
             prevLine = line;
@@ -331,16 +345,20 @@ export class VDFFileWrapper {
         }
     }
 
-    cleanAllValues() {
+    cleanAllValues(): number {
         let i = 0;
+        let cleaned = 0;
         for (const line of this._lines) {
             if (line.valid) {
-                if (!(i === 0 && line.key === "Language"))
+                if (!(i === 0 && line.key === "Language")) {
                     line.setValue("");
+                    cleaned++;
+                }
                 i++;
             }
         }
         this._refreshKeys();
+        return cleaned;
     }
 }
 

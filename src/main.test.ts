@@ -77,6 +77,8 @@ describe("vdf-patcher files", () => {
         expect(file.toString()).toBe(expected);
     });
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+
     test("insert new at the end", () => {
         const file = new VDFFileWrapper(String.raw`
 {
@@ -102,6 +104,8 @@ describe("vdf-patcher files", () => {
 }`;
         expect(file.toString()).toBe(expected);
     });
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
 
     test("insert new after", () => {
         const file = new VDFFileWrapper(String.raw`
@@ -136,6 +140,8 @@ describe("vdf-patcher files", () => {
         expect(file.toString()).toBe(expected);
     });
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+
     test("insert new before", () => {
         const file = new VDFFileWrapper(String.raw`
 {
@@ -169,6 +175,8 @@ describe("vdf-patcher files", () => {
         expect(file.toString()).toBe(expected);
     });
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+
     test("copyFromObject existing", () => {
         const file = new VDFFileWrapper(String.raw`
 {
@@ -201,6 +209,8 @@ describe("vdf-patcher files", () => {
         file.copyFromObject(patch);
         expect(file.toString()).toBe(expected);
     });
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
 
     test("copyFromObject including new", () => {
         const file = new VDFFileWrapper(String.raw`
@@ -236,6 +246,8 @@ describe("vdf-patcher files", () => {
         expect(file.toString()).toBe(expected);
     });
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+
     test("copyFrom existing", () => {
         const file = new VDFFileWrapper(String.raw`
 {
@@ -253,11 +265,11 @@ describe("vdf-patcher files", () => {
     "Language" "english"
     "Tokens"
     {
-        "kaka1"   "pepe1" // different comment
-        "kaka2"   "pepe2" // different comment
-        "kaka3"   "pepe3" // different comment
-        "kaka4"   "pepe4" // different comment
-        "kaka5"   "pepe5" // different comment
+        "kaka1"   "pepe1!" // different comment
+        "kaka2"   "pepe2!" // different comment
+        "kaka3"   "pepe3!" // different comment
+        "kaka4"   "pepe4!" // different comment
+        "kaka5"   "pepe5!" // different comment
     }
 }`;
 
@@ -266,14 +278,16 @@ describe("vdf-patcher files", () => {
     "Language" "english"
     "Tokens"
     {
-        "kaka1"   "pepe1" // comment
-        "kaka2"   "pepe2" // comment
-        "kaka3"   "pepe3" // comment
+        "kaka1"   "pepe1!" // comment
+        "kaka2"   "pepe2!" // comment
+        "kaka3"   "pepe3!" // comment
     }
 }`;
         file.copyFrom(new VDFFileWrapper(patch));
         expect(file.toString()).toBe(expected);
     });
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
 
     test("copyFrom existing including new", () => {
         const file = new VDFFileWrapper(String.raw`
@@ -292,11 +306,11 @@ describe("vdf-patcher files", () => {
     "Language" "english"
     "Tokens"
     {
-        "kaka1"   "pepe1" // different comment
-        "kaka2"   "pepe2" // different comment
-        "kaka3"   "pepe3" // different comment
-        "kaka4"   "pepe4" // different comment
-        "kaka5"   "pepe5" // different comment
+        "kaka1"   "pepe1!" // different comment
+        "kaka2"   "pepe2!" // different comment
+        "kaka3"   "pepe3!" // different comment
+        "kaka4"   "pepe4!" // different comment
+        "kaka5"   "pepe5!" // different comment
     }
 }`;
 
@@ -305,16 +319,18 @@ describe("vdf-patcher files", () => {
     "Language" "english"
     "Tokens"
     {
-        "kaka1"   "pepe1" // comment
-        "kaka2"   "pepe2" // different comment
-        "kaka3"   "pepe3" // comment
-        "kaka4"   "pepe4" // different comment
-        "kaka5"   "pepe5" // comment
+        "kaka1"   "pepe1!" // comment
+        "kaka2"   "pepe2!" // different comment
+        "kaka3"   "pepe3!" // comment
+        "kaka4"   "pepe4!" // different comment
+        "kaka5"   "pepe5!" // comment
     }
 }`;
-        file.copyFrom(new VDFFileWrapper(patch), true);
+        file.copyFrom(new VDFFileWrapper(patch), { addMissing: true });
         expect(file.toString()).toBe(expected);
     });
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
 
     test("copyFrom test appends", () => {
         const file = new VDFFileWrapper(String.raw`
@@ -335,15 +351,15 @@ describe("vdf-patcher files", () => {
     "Language" "english"
     "Tokens"
     {
-        "kaka1"   "pepe1" // different comment
-        "kaka2"   "pepe2" // different comment
+        "kaka1"   "pepe1!" // different comment
+        "kaka2"   "pepe2!" // different comment
 
-        "kaka3"   "pepe3" // different comment
-        "kaka4"   "pepe4" // different comment
+        "kaka3"   "pepe3!" // different comment
+        "kaka4"   "pepe4!" // different comment
 
-        "kaka5"   "pepe5" // different comment
+        "kaka5"   "pepe5!" // different comment
 
-        "kaka6"   "pepe6" // different comment
+        "kaka6"   "pepe6!" // different comment
     }
 }`;
 
@@ -352,19 +368,21 @@ describe("vdf-patcher files", () => {
     "Language" "english"
     "Tokens"
     {
-        "kaka1"   "pepe1" // comment
-        "kaka2"   "pepe2" // different comment
+        "kaka1"   "pepe1!" // comment
+        "kaka2"   "pepe2!" // different comment
 
-        "kaka3"   "pepe3" // different comment
-        "kaka4"   "pepe4" // comment
+        "kaka3"   "pepe3!" // different comment
+        "kaka4"   "pepe4!" // comment
 
-        "kaka5"   "pepe5" // comment
-        "kaka6"   "pepe6" // different comment
+        "kaka5"   "pepe5!" // comment
+        "kaka6"   "pepe6!" // different comment
     }
 }`;
-        file.copyFrom(new VDFFileWrapper(patch), true);
+        file.copyFrom(new VDFFileWrapper(patch), { addMissing: true });
         expect(file.toString()).toBe(expected);
     });
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
 
     test("delete", () => {
         const file = new VDFFileWrapper(String.raw`
@@ -390,6 +408,8 @@ describe("vdf-patcher files", () => {
         expect(file.toString()).toBe(expected);
     });
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+
     test("cleanAllValues", () => {
         const file = new VDFFileWrapper(String.raw`
 {
@@ -412,6 +432,135 @@ describe("vdf-patcher files", () => {
         "kaka2"   "" // comment
     }
 }`;
+        expect(file.toString()).toBe(expected);
+    });
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+
+    test("copyFrom addMissingNoValue", () => {
+        const file = new VDFFileWrapper(String.raw`
+{
+    "Language" "english"
+    "Tokens"
+    {
+        "kaka1"   "dudu1" // comment
+        "kaka3"   "dudu3" // comment
+        "kaka5"   "dudu5" // comment
+    }
+}`);
+
+        const patch = String.raw`
+{
+    "Language" "english"
+    "Tokens"
+    {
+        "kaka1"   "pepe1!" // different comment
+        "kaka2"   "pepe2!" // different comment
+        "kaka3"   "pepe3!" // different comment
+        "kaka4"   "pepe4!" // different comment
+        "kaka5"   "pepe5!" // different comment
+    }
+}`;
+
+        const expected = String.raw`
+{
+    "Language" "english"
+    "Tokens"
+    {
+        "kaka1"   "pepe1!" // comment
+        "kaka2"   "" // different comment
+        "kaka3"   "pepe3!" // comment
+        "kaka4"   "" // different comment
+        "kaka5"   "pepe5!" // comment
+    }
+}`;
+        file.copyFrom(new VDFFileWrapper(patch), { addMissing: true, addMissingNoValue: true });
+        expect(file.toString()).toBe(expected);
+    });
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+
+    test("copyFrom onlyMissing", () => {
+        const file = new VDFFileWrapper(String.raw`
+{
+    "Language" "english"
+    "Tokens"
+    {
+        "kaka1"   "dudu1" // comment
+        "kaka3"   "dudu3" // comment
+        "kaka5"   "dudu5" // comment
+    }
+}`);
+
+        const patch = String.raw`
+{
+    "Language" "english"
+    "Tokens"
+    {
+        "kaka1"   "dudu1!" // different comment
+        "kaka2"   "dudu2!" // different comment
+        "kaka3"   "dudu3!" // different comment
+        "kaka4"   "dudu4!" // different comment
+        "kaka5"   "dudu5!" // different comment
+    }
+}`;
+
+        const expected = String.raw`
+{
+    "Language" "english"
+    "Tokens"
+    {
+        "kaka1"   "dudu1" // comment
+        "kaka2"   "dudu2!" // different comment
+        "kaka3"   "dudu3" // comment
+        "kaka4"   "dudu4!" // different comment
+        "kaka5"   "dudu5" // comment
+    }
+}`;
+        file.copyFrom(new VDFFileWrapper(patch), { addMissing: true, onlyMissing: true });
+        expect(file.toString()).toBe(expected);
+    });
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+
+    test("copyFrom addMissingNoValue+onlyMissing", () => {
+        const file = new VDFFileWrapper(String.raw`
+{
+    "Language" "english"
+    "Tokens"
+    {
+        "kaka1"   "dudu1" // comment
+        "kaka3"   "dudu3" // comment
+        "kaka5"   "dudu5" // comment
+    }
+}`);
+
+        const patch = String.raw`
+{
+    "Language" "english"
+    "Tokens"
+    {
+        "kaka1"   "dudu1!" // different comment
+        "kaka2"   "dudu2!" // different comment
+        "kaka3"   "dudu3!" // different comment
+        "kaka4"   "dudu4!" // different comment
+        "kaka5"   "dudu5!" // different comment
+    }
+}`;
+
+        const expected = String.raw`
+{
+    "Language" "english"
+    "Tokens"
+    {
+        "kaka1"   "dudu1" // comment
+        "kaka2"   "" // different comment
+        "kaka3"   "dudu3" // comment
+        "kaka4"   "" // different comment
+        "kaka5"   "dudu5" // comment
+    }
+}`;
+        file.copyFrom(new VDFFileWrapper(patch), { addMissing: true, addMissingNoValue: true, onlyMissing: true });
         expect(file.toString()).toBe(expected);
     });
 
