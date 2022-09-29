@@ -146,7 +146,7 @@ export class VDFFileWrapper {
         key = key.toUpperCase();
         if (key in this._linesMap && this._linesMap[key].valid)
             return this._linesMap[key].value;
-        throw new RangeError("No valid line with such key");
+        throw new RangeError("No valid line with such key: " + key);
     }
 
     has(key: string): boolean {
