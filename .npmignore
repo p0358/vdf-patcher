@@ -3,5 +3,6 @@ src
 .gitignore
 jest.config.js
 yarn.lock
+pnpm-lock.yaml
 tsconfig.json
 *.md
