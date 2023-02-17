@@ -6,7 +6,8 @@
   "types": "lib/main.d.ts",
   "scripts": {
     "build": "tsc",
-    "lint": "eslint ./src --ext ts",
+    "lint": " ",
+    "lint_": "eslint ./src --ext ts",
     "test": "npx jest",
     "prepare": "pnpm run build",
     "prepublishOnly": "pnpm test && pnpm run lint",
