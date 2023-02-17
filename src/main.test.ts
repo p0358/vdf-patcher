@@ -1,4 +1,3 @@
-import { file } from "@babel/types";
 import { describe, expect, test } from "@jest/globals";
 import { VDFFileWrapper, VDFFileLine } from "./main";
 
